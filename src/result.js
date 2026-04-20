@@ -1,8 +1,10 @@
-import { drawRadar } from './chart.js'
 import { generateShareImage } from './share.js'
 
 const LEVEL_LABEL = { L: '低', M: '中', H: '高' }
 const LEVEL_CLASS = { L: 'level-low', M: 'level-mid', H: 'level-high' }
+
+// 获取基础路径
+const BASE_URL = import.meta.env.BASE_URL || './'
 
 /**
  * 渲染测试结果
@@ -28,6 +30,29 @@ export function renderResult(result, userLevels, dimOrder, dimDefs, config) {
   document.getElementById('result-intro').textContent = primary.intro || ''
   document.getElementById('result-desc').textContent = primary.desc || ''
 
+  // 怪物图片 - 处理路径
+  const imgContainer = document.getElementById('result-image-container')
+  const imgEl = document.getElementById('result-image')
+  if (primary.image) {
+    // 处理图片路径，确保在开发和构建时都能正常工作
+    let imgSrc = primary.image
+    if (imgSrc.startsWith('./')) {
+      imgSrc = BASE_URL + imgSrc.substring(2)
+    } else if (imgSrc.startsWith('/')) {
+      imgSrc = BASE_URL + imgSrc.substring(1)
+    }
+    imgEl.src = imgSrc
+    imgEl.onload = () => {
+      imgContainer.style.display = 'block'
+    }
+    imgEl.onerror = () => {
+      console.log('图片加载失败:', imgSrc)
+      imgContainer.style.display = 'none'
+    }
+  } else {
+    imgContainer.style.display = 'none'
+  }
+
   // 次要匹配
   const secEl = document.getElementById('result-secondary')
   if (secondary && (mode === 'drunk' || mode === 'fallback')) {
@@ -36,30 +61,6 @@ export function renderResult(result, userLevels, dimOrder, dimDefs, config) {
       `${secondary.code}（${secondary.cn}）· 匹配度 ${secondary.similarity}%`
   } else {
     secEl.style.display = 'none'
-  }
-
-  // 雷达图
-  const canvas = document.getElementById('radar-chart')
-  drawRadar(canvas, userLevels, dimOrder, dimDefs)
-
-  // 维度详情
-  const detailEl = document.getElementById('dimensions-detail')
-  detailEl.innerHTML = ''
-  for (const dim of dimOrder) {
-    const level = userLevels[dim] || 'M'
-    const def = dimDefs[dim]
-    if (!def) continue
-
-    const row = document.createElement('div')
-    row.className = 'dim-row'
-    row.innerHTML = `
-      <div class="dim-header">
-        <span class="dim-name">${def.name}</span>
-        <span class="dim-level ${LEVEL_CLASS[level]}">${LEVEL_LABEL[level]}</span>
-      </div>
-      <div class="dim-desc">${def.levels[level]}</div>
-    `
-    detailEl.appendChild(row)
   }
 
   // TOP 5
@@ -85,16 +86,10 @@ export function renderResult(result, userLevels, dimOrder, dimDefs, config) {
   // 下载分享图
   const btnDownload = document.getElementById('btn-download')
   btnDownload.onclick = () => {
-    generateShareImage(primary, userLevels, dimOrder, dimDefs, mode)
+    // 传递 rankings 数据给分享图生成函数
+    const primaryWithRankings = { ...primary, rankings }
+    console.log('生成分享图，图片路径:', primary.image)
+    generateShareImage(primaryWithRankings, userLevels, dimOrder, dimDefs, mode)
   }
-
-  // 复制 AI Agent 命令
-  const btnAgent = document.getElementById('btn-agent')
-  btnAgent.onclick = () => {
-    const cmd = `git clone https://github.com/pingfanfan/SBTI.git && cd SBTI && npm install && npm run dev`
-    navigator.clipboard.writeText(cmd).then(() => {
-      btnAgent.textContent = '已复制!'
-      setTimeout(() => { btnAgent.textContent = '复制一键部署命令' }, 2000)
-    })
-  }
+  
 }
