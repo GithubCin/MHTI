@@ -80,7 +80,7 @@ export function matchType(userLevels, dimOrder, pattern) {
  * @returns {{ primary: Object, secondary: Object|null, rankings: Array, mode: string }}
  */
 export function determineResult(userLevels, dimOrder, standardTypes, specialTypes, options = {}) {
-  const rankings = standardTypes.map((type) => ({
+  let rankings = standardTypes.map((type) => ({
     ...type,
     ...matchType(userLevels, dimOrder, type.pattern),
   }))
@@ -88,11 +88,27 @@ export function determineResult(userLevels, dimOrder, standardTypes, specialType
   // 排序：距离升序 → 精准命中降序 → 相似度降序
   rankings.sort((a, b) => a.distance - b.distance || b.exact - a.exact || b.similarity - a.similarity)
 
-  const best = rankings[0]
-  const drunk = specialTypes.find((t) => t.code === 'DRUNK')
+  // 如果前几个完全相同（距离、精准、相似度都一样），从中随机选一个
+  let best = rankings[0]
+  if (best) {
+    const sameAsBest = rankings.filter(
+      (r, i) => i > 0 && r.distance === best.distance && r.exact === best.exact && r.similarity === best.similarity
+    )
+    if (sameAsBest.length > 0) {
+      // 包括 best 在内，所有一样的里面随机选一个
+      const candidates = [best, ...sameAsBest]
+      const randomIndex = Math.floor(Math.random() * candidates.length)
+      best = candidates[randomIndex]
+      // 重新排列 rankings，把随机选中的放到第一位
+      rankings = rankings.filter((r) => r !== best)
+      rankings.unshift(best)
+    }
+  }
+
+  const drunk = specialTypes.find((t) => t.code === 'POOG')
   const hhhh = specialTypes.find((t) => t.code === 'HHHH')
 
-  // 酒鬼覆盖
+  // POOG覆盖
   if (options.isDrunk && drunk) {
     return {
       primary: { ...drunk, similarity: best.similarity, exact: best.exact },
@@ -102,7 +118,7 @@ export function determineResult(userLevels, dimOrder, standardTypes, specialType
     }
   }
 
-  // 傻乐者兜底
+  // 摇曳鳗兜底
   if (best.similarity < 60 && hhhh) {
     return {
       primary: { ...hhhh, similarity: best.similarity, exact: best.exact },
