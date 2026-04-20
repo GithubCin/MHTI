@@ -78,7 +78,7 @@ export async function generateShareImage(primary, userLevels, dimOrder, dimDefs,
     ctx.fillText(line, W / 2, y)
     y += 30
   }
-  y += 32
+  y += 240
 
   // 绘制怪物图片（如果有）
   if (primary.image) {
@@ -93,21 +93,21 @@ export async function generateShareImage(primary, userLevels, dimOrder, dimDefs,
     // 确保 basePath 以 / 结尾，imgSrc 不以 / 开头
     const finalSrc = basePath.replace(/\/$/, '') + '/' + imgSrc
     console.log('分享图图片路径:', finalSrc)
-    await drawMonsterImage(ctx, finalSrc, W / 2, y, 280)
-    y += 300
+    await drawMonsterImage(ctx, finalSrc, W / 2, y, 400)
+    y += 400
   }
 
-  // 描述文字（截取前 150 字）
+  // 描述文字（截取前 100 字）
   ctx.font = '400 16px system-ui, "PingFang SC", "Microsoft YaHei", sans-serif'
   ctx.fillStyle = '#6b7b6e'
-  const descText = (primary.desc || '').substring(0, 150) + '...'
+  const descText = (primary.desc || '').substring(0, 100) + '...'
   const descLines = wrapText(ctx, descText, cardW - 80)
   for (const line of descLines) {
     ctx.fillText(line, W / 2, y)
     y += 24
   }
 
-  y += 32
+  y += 24
 
   // 最佳匹配 TOP 5
   ctx.font = '600 20px system-ui, "PingFang SC", "Microsoft YaHei", sans-serif'
