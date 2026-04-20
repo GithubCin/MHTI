@@ -15,8 +15,8 @@
       "dim": "S1",
       "text": "看到大佬竞速讨伐的视频，你会想？",
       "options": [
-        { "label": "我这辈子都做不到吧", "value": 1 },
-        { "label": "挺厉害的，但我玩得开心就好", "value": 2 },
+        { "label": "挺厉害的，但我玩得开心就好", "value": 1 },
+        { "label": "我这辈子都做不到吧", "value": 2 },
         { "label": "我也可以，练就行了", "value": 3 }
       ]
     },
@@ -65,7 +65,7 @@
       "dim": "E1",
       "text": "队友猫车了，你会想？",
       "options": [
-        { "label": "完了完了，这任务要失败了", "value": 1 },
+        { "label": "笑嘻", "value": 1 },
         { "label": "没事，还能打", "value": 2 },
         { "label": "正好，我一个人 carry", "value": 3 }
       ]
@@ -87,7 +87,7 @@
       "options": [
         { "label": "就一游戏，打发时间", "value": 1 },
         { "label": "挺喜欢的，经常玩", "value": 2 },
-        { "label": "真爱，每一代都买，每只怪物都研究", "value": 3 }
+        { "label": "真爱，每一代都买", "value": 3 }
       ]
     },
     {
@@ -116,7 +116,7 @@
       "text": "队友一直捞飞你，你会？",
       "options": [
         { "label": "算了，让他打吧", "value": 1 },
-        { "label": "委婉提醒一下", "value": 2 },
+        { "label": "狂发表情", "value": 2 },
         { "label": "换武器，捞回去", "value": 3 }
       ]
     },
@@ -125,7 +125,7 @@
       "dim": "A1",
       "text": "你觉得怪猎的难度设计合理吗？",
       "options": [
-        { "label": "不合理，太难或太简单", "value": 1 },
+        { "label": "不合理，有些太难或太简单", "value": 1 },
         { "label": "还行吧，有难有易", "value": 2 },
         { "label": "很合理，挑战性刚刚好", "value": 3 }
       ]
@@ -167,7 +167,7 @@
       "options": [
         { "label": "没什么目标，随便玩玩", "value": 1 },
         { "label": "通关主线，看看剧情", "value": 2 },
-        { "label": "全成就/全武器精通/全怪物讨伐", "value": 3 }
+        { "label": "多武器精通/全成就/全怪物讨伐", "value": 3 }
       ]
     },
     {
@@ -256,7 +256,7 @@
       "text": "如何看待救难任务？",
       "options": [
         { "label": "从来没救援过", "value": 1 },
-        { "label": "心情好偶尔打一打", "value": 2 },
+        { "label": "偶尔打一打", "value": 2 },
         { "label": "F4常客", "value": 3 }
       ]
     },
@@ -265,7 +265,7 @@
       "dim": "So2",
       "text": "队友太菜一直猫车，你会？",
       "options": [
-        { "label": "忍着，打完这局", "value": 1 },
+        { "label": "没事我也很菜", "value": 1 },
         { "label": "委婉提醒，或者自己 carry", "value": 2 },
         { "label": "化身DPS警察", "value": 3 }
       ]
@@ -307,16 +307,16 @@
       "text": "对待噗嗤猪？",
       "options": [
         { "label": "抱起来rua", "value": 1 },
-        { "label": "无视", "value": 2 },
-        { "label": "感觉群友更🐷一点", "value": 3 }
+        { "label": "感觉群友更🐷一点", "value": 2 },
+        { "label": "🐷🐷可爱捏", "value": 3 }
       ]
     },
     {
       "id": "drink_gate_q2",
       "text": "猫车三次后，你会？",
       "options": [
-        { "label": "找人带带", "value": 1 },
-        { "label": "继续挑战", "value": 2 },
+        { "label": "继续挑战", "value": 1 },
+        { "label": "找人带带", "value": 2 },
         { "label": "喝一口水，平复心情", "value": 3 }
       ]
     }
